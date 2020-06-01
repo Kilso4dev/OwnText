@@ -1,0 +1,1 @@
+/usr/bin/cc  -Wall -lm -g   CMakeFiles/OwnText.dir/src/args.c.o CMakeFiles/OwnText.dir/src/logging.c.o CMakeFiles/OwnText.dir/src/owntext.c.o CMakeFiles/OwnText.dir/src/termio.c.o CMakeFiles/OwnText.dir/src/window.c.o  -o OwnText  -lm -lncurses 

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kilso/Documents/CProjects/OwnText/src/window.c
+window.h
+/home/kilso/Documents/CProjects/OwnText/src/window.h
+stdbool.h
+/home/kilso/Documents/CProjects/OwnText/src/stdbool.h
+curses.h
+-
+
+/home/kilso/Documents/CProjects/OwnText/src/window.h
+stdio.h
+-
+stdlib.h
+-
+ncurses.h
+-
+

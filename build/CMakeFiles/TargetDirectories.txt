@@ -1,0 +1,3 @@
+/home/kilso/Documents/CProjects/OwnText/build/CMakeFiles/edit_cache.dir
+/home/kilso/Documents/CProjects/OwnText/build/CMakeFiles/rebuild_cache.dir
+/home/kilso/Documents/CProjects/OwnText/build/CMakeFiles/OwnText.dir

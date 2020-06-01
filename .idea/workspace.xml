@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="OwnText" targetName="OwnText" />
+    </generated>
+  </component>
+  <component name="CMakeSettings" AUTO_RELOAD="true">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="52eabf11-346e-4b03-be8f-00bac96ad215" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FavoritesManager">
+    <favorites_list name="OwnText" />
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>set_</find>
+      <find>termina</find>
+      <find>term_get_c</find>
+      <find>get</find>
+      <find>term_get_dim</find>
+      <find>i_from</find>
+      <find>terminate</find>
+      <find>char</find>
+      <find>term_clear_screen</find>
+      <find>REset F</find>
+      <find>Height</find>
+      <find>Cycles</find>
+      <find>owntext</find>
+      <find>_t</find>
+      <find>ot_buffer_t</find>
+      <find>ot_buffer_create</find>
+      <find>print_err</find>
+      <find>log10</find>
+      <find>malloc</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>prog_terminate</replace>
+      <replace>ot</replace>
+      <replace>ot_buffer</replace>
+    </replaceStrings>
+  </component>
+  <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
+  <component name="ProjectId" id="1So17OZpZp74FoFwBFDfCMqKhqb" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Uni/Sem3/RNVS/RNUVS-HA-git/Block4" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="OwnText" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="OwnText" TARGET_NAME="OwnText" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="OwnText" RUN_TARGET_NAME="OwnText">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="52eabf11-346e-4b03-be8f-00bac96ad215" name="Default Changelist" comment="" />
+      <created>1561885747796</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1561885747796</updated>
+      <workItem from="1561885749616" duration="25271000" />
+      <workItem from="1561935597040" duration="1386000" />
+      <workItem from="1562016201400" duration="4978000" />
+      <workItem from="1562048246499" duration="7131000" />
+      <workItem from="1562101869404" duration="4291000" />
+      <workItem from="1562155207921" duration="2280000" />
+      <workItem from="1562223978016" duration="189000" />
+      <workItem from="1562668622836" duration="7318000" />
+      <workItem from="1562738066826" duration="15780000" />
+      <workItem from="1562789073371" duration="2660000" />
+      <workItem from="1562849583250" duration="7546000" />
+      <workItem from="1562925862697" duration="1313000" />
+      <workItem from="1562967993086" duration="5446000" />
+      <workItem from="1563444938241" duration="4533000" />
+      <workItem from="1564481997917" duration="2156000" />
+      <workItem from="1564872300434" duration="14705000" />
+      <workItem from="1565639129195" duration="158000" />
+      <workItem from="1565707790453" duration="2033000" />
+      <workItem from="1566680247464" duration="18937000" />
+      <workItem from="1567174636224" duration="20006000" />
+      <workItem from="1567787784325" duration="334000" />
+      <workItem from="1567788288509" duration="42000" />
+      <workItem from="1568039311553" duration="13919000" />
+      <workItem from="1570528866425" duration="321000" />
+      <workItem from="1571814397757" duration="227000" />
+      <workItem from="1572214974417" duration="150000" />
+      <workItem from="1572219460201" duration="3000" />
+      <workItem from="1572244894987" duration="1766000" />
+      <workItem from="1572298798567" duration="2218000" />
+      <workItem from="1575036314069" duration="115000" />
+      <workItem from="1575042750144" duration="522000" />
+      <workItem from="1575122031876" duration="1089000" />
+      <workItem from="1575178616458" duration="37000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>
