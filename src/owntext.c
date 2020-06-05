@@ -1,25 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "logging.h"
 #include "args.h"
 #include "window.h"
 
+
 #define MAX_CYCLES 100
 
-struct owntext_state {
+typedef struct owntext_state {
     edit_state *window_state;
     
     bool exit;
+} owntext_state;
 
-};
-
-struct owntext_state editor_state;
+owntext_state editor_state = {.window_state = NULL, .exit = false};
 
 int owntext_run();
 int owntext_processInput();
 int prog_init(int argc, char *argv[]);
+
+void prog_cleanup() {
+
+}
 
 void prog_terminate(int code, const char *s) {
     logm(DEBUG_ERROR, s);
@@ -48,6 +53,7 @@ int prog_init(int argc, char *argv[]) {
     logm(DEBUG_INFO, "Initialization!");
     
     editor_state.window_state = edit_init();
+    atexit(prog_cleanup);
     editor_state.exit = false;
     args *a = args_parse(argc, argv);
 

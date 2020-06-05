@@ -1,6 +1,6 @@
+#include <curses.h>
 #include "window.h"
 #include "stdbool.h"
-#include <curses.h>
 
 edit_state *edit_init() {
     edit_state *new_t_state = malloc(sizeof(edit_state));

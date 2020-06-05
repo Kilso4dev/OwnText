@@ -3,6 +3,8 @@
 
 #include <ncurses.h>
 
+#ifndef WINDOW_H
+#define WINDOW_H
 // Sub
 
 typedef struct edit_win {
@@ -35,3 +37,5 @@ void edit_win_free(edit_win **win);
 
 
 void edit_win_update(edit_win *win);
+
+#endif //WINDOW_H
