@@ -1,5 +1,5 @@
 
-EXEC_NAME = OwnText
+EXEC_NAME = vemacs
 
 
 compile-easy:
