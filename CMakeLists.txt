@@ -9,9 +9,13 @@ file(GLOB FILES_ALL
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -lm -g")
 
-#add_executable(OwnText main.c termio.c owntext.h termio.h prog.c prog.h owntext.c Texts.h)
-
 add_executable(vemacs ${FILES_ALL})
 
 target_link_libraries(vemacs m)
 target_link_libraries(vemacs ncurses)
+
+add_executable( ./test/test_buf.c ${FILES_ALL})
+
+target_link_libraries(tests_all m)
+target_link_libraries(tests_all ncurses)
+

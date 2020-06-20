@@ -1,5 +1,76 @@
 #include "buf.h"
 
+#define OT_DIR_FORWARD 2
+#define OT_DIR_BACKWARD 4
+
+ot_buf_line *ot_buf_get_nearestpointer(
+        ot_buf *b,
+        ot_size tl, 
+        int *dir,
+        ot_size *n_line) {
+    if (tl >= b->lines) {
+        logm(DEBUG_ERROR, "[ot_buf_get_nearestpointer] target Line is bigger than buffer Lines, returning NULL");
+        return NULL;
+    }
+    
+
+    if (tl <= b->last_used_line) { // sl - »tl - ll - el
+        if (tl <= (b->last_used_line/ 2)) { // Closer to the first line
+            if (dir) *dir = OT_DIR_FORWARD;
+            if (n_line) *n_line = 0;
+            return b->first_line;
+        } else { // Closer to the last used line
+            if (dir) *dir = OT_DIR_BACKWARD;
+            if (n_line) *n_line = b->last_used_line;
+            return b->last_used;
+        }
+    } else { // sl - ll - »tl - el
+        if (tl <= ( b->last_used_line + ((b->lines - 1 - b->last_used_line) / 2))) { // Closer to the last used line
+            if (dir) *dir = OT_DIR_FORWARD;
+            if (n_line) *n_line = b->last_used_line;
+            return b->last_used;
+        } else { // Closer to the last line
+            if (dir) *dir = OT_DIR_BACKWARD;
+            if (n_line) *n_line = b->lines-1;
+            return b->last_line;
+        }
+    }
+}
+
+ot_buf_line *ot_find_buf(
+        ot_buf *head_buf,
+        ot_size target_line) {
+    if (!head_buf) return NULL;
+
+    int readDirection = 0;
+    ot_size n_line = 0;
+    ot_buf_line *n_buf = ot_buf_get_nearestpointer(
+            head_buf, 
+            target_line, 
+            &readDirection,
+            &n_line);
+    if (!n_buf) { 
+        // current buffer state (i.e. empty) config is not valid for better buf position finding: ignoring
+        n_buf = head_buf->first_line;
+    }
+
+    ot_size c_buf_l = n_line;
+    ot_buf_line *c_buf = n_buf;
+    while ( c_buf_l != target_line)  {
+        if (readDirection == OT_DIR_BACKWARD) {
+            if (!c_buf->prev) return c_buf;
+            c_buf = c_buf->prev;
+            c_buf_l -= 1;
+        } else {
+            if (!c_buf->next) return c_buf;
+            c_buf = c_buf->next;
+            c_buf_l += 1;
+        }
+    }
+    return c_buf;
+}
+
+
 // -------------------------string helper functions -------------------------
 ot_size ot_str_len(ot_char *str) {
     ot_size i = 0;
@@ -71,8 +142,8 @@ ot_buf *ot_buf_create_empty() {
 
     new_buf->first_line = NULL;
     new_buf->last_line = NULL;
-    new_buf->lastUsed = NULL;
-    new_buf->lastUsedLine = 0;
+    new_buf->last_used= NULL;
+    new_buf->last_used_line = 0;
 
     new_buf->lines = 0;
 
@@ -90,13 +161,64 @@ void ot_buf_free(ot_buf *buf) {
 void ot_buf_insert_after(
         ot_buf *head_buf,
         ot_buf_line *newLine,
-        uint64_t target_line) {
+        ot_size target_line) {
 
+    if (!head_buf->first_line && !head_buf->last_line) { 
+        // Uninitialized Head, this is the first item
+        head_buf->first_line = newLine;
+        head_buf->last_line = newLine;
+        head_buf->last_used = newLine;
+        head_buf->last_used_line = 0;
+        head_buf->lines = 1;
+        return;
+    }
+
+    ot_buf_line *target_buf = ot_find_buf(head_buf, target_line);
+    ot_buf_line *next_buf = target_buf->next;
+
+    target_buf->next = newLine;
+    newLine->next = next_buf;
+
+    if (next_buf) next_buf->prev = newLine;
+    newLine->prev = target_buf;
+
+    if (!next_buf) head_buf->last_line = newLine;
+ 
+    // Update last used
+    head_buf->last_used = newLine;
+    head_buf->last_used_line = target_line + 1;
+
+    // Update lines
+    head_buf->lines += 1;
 }
 
 void ot_buf_insert_before(
         ot_buf *head_buf,
         ot_buf_line *newLine,
-        uint64_t target_line) {
+        ot_size target_line) {
+    if (!head_buf->first_line && !head_buf->last_line) { // Uninitialized
+        ot_buf_insert_after(
+                head_buf,
+                newLine,
+                target_line);
+        return;
+    }
 
+    ot_buf_line *target_buf = ot_find_buf(head_buf, target_line);
+    ot_buf_line *prev_buf = target_buf->prev;
+
+    target_buf->prev = newLine;
+    newLine->prev = prev_buf;
+
+    if (prev_buf) prev_buf->next = newLine;
+    newLine->next = target_buf;
+
+    if (!prev_buf) head_buf->first_line = newLine;
+
+    // Update last used
+    head_buf->last_used = newLine;
+    head_buf->last_used_line = target_line;
+
+    // Update lines
+    head_buf->lines += 1;
 }

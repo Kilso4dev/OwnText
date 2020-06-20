@@ -47,8 +47,8 @@ typedef struct ot_buf {
      
      uint64_t lines;
 
-     ot_buf_line *lastUsed;
-     uint64_t lastUsedLine;
+     ot_buf_line *last_used;
+     uint64_t last_used_line;
 } ot_buf;
 
 
