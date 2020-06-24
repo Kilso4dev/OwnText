@@ -26,7 +26,6 @@ void ot_str_free(ot_char *str);
 // -------------------------ot_buf_line functions -------------------------
 
 typedef struct ot_buf_line {
-    ot_size line;
     ot_char *chars;
 
     struct ot_buf_line *next;
@@ -35,7 +34,7 @@ typedef struct ot_buf_line {
 } ot_buf_line;
 
 
-ot_buf_line *ot_buf_line_create(const ot_char *str, ot_size line);
+ot_buf_line *ot_buf_line_create(ot_char *str);
 
 void ot_buf_line_free(ot_buf_line *l, int free_type);
 
@@ -61,5 +60,10 @@ void ot_buf_free(ot_buf *buf);
 void ot_buf_insert_after(ot_buf *head_buf, ot_buf_line *newLine, uint64_t target_line);
 
 void ot_buf_insert_before(ot_buf *head_buf, ot_buf_line *newLine, uint64_t target_line);
+
+// ------------------------- utility functions -------------------------
+
+void ot_buf_print(ot_buf *b);
+
 
 #endif //BUF_H

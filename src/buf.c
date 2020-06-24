@@ -96,17 +96,17 @@ void ot_str_free(ot_char *str) {
 
 // -------------------------ot_buf_line functions -------------------------
 
-ot_buf_line *ot_buf_line_create(const ot_char *str, ot_size line) {
-    ot_buf_line *new_l = (ot_buf_line *) malloc(sizeof(ot_buf_line *));
+ot_buf_line *ot_buf_line_create(ot_char *str) {
+    ot_buf_line *new_l = (ot_buf_line *) malloc(sizeof(ot_buf_line));
     if (!new_l) {
         logm(DEBUG_ERROR, "[ot_buf_line] [create]: Error while allocating Memory");
         return NULL;
     }
     new_l->chars = ot_str_copy(str, ot_str_len(str)+1);
-    new_l->line = line;
     
     new_l->next = NULL;
     new_l->prev = NULL;
+
 
     return new_l;
 }
@@ -221,4 +221,34 @@ void ot_buf_insert_before(
 
     // Update lines
     head_buf->lines += 1;
+}
+
+
+// ------------------------- utility functions -------------------------
+
+void ot_buf_print(ot_buf *b) {
+    debug_lvl L = DEBUG_INFO;
+    if (!b) {
+        logm(L, "NULL");
+        return;
+    }
+
+    if (!b->first_line) {
+        logm(L, "First Line is NULL");
+        return;
+    }
+    
+    ot_buf_line *cLine = b->first_line;
+    ot_size cli = 1;
+    while (cLine) {
+        logm(L, " Line %ld", cli);
+        logm(L, "\t Prev: %p", cLine->prev);
+        logm(L, "\t Self: %p", cLine);
+        logm(L, "\t Next: %p", cLine->next);
+        logm(L, "\t Content: \"%s\"\n", cLine->chars);
+
+        cLine = cLine->next;
+        ++cli;
+    }
+
 }

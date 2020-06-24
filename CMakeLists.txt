@@ -20,7 +20,7 @@ target_link_libraries(vemacs m)
 target_link_libraries(vemacs ncurses)
 
 # TODO Fix for tests
-list(REMOVE_ITEM FILES_ALL EXCLUDE REGEX ".*src\/vemacs.c")
+list(REMOVE_ITEM FILES_ALL EXCLUDE REGEX "${CMAKE_CURRENT_SOURCE_DIR}/src/vemacs\.c")
 
 foreach (CI IN LISTS FILES_ALL)
     message(STATUS "${CI}")
