@@ -27,8 +27,12 @@ foreach (CI IN LISTS FILES_ALL)
 endforeach()
 
 
-add_executable(tests_all ./test/test_buf.c ${FILES_ALL})
+add_executable(tests_log ./test/test_log.c src/util/logging.c src/util/logging.h)
 
-target_link_libraries(tests_all m)
-target_link_libraries(tests_all ncurses)
+target_link_libraries(tests_log m)
+
+add_executable(tests_buf ./test/test_buf.c src/buf.c src/buf.h src/util/logging.c src/util/logging.h)
+
+target_link_libraries(tests_buf m)
+
 

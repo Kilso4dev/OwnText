@@ -1,11 +1,10 @@
 
 EXEC_NAME = vemacs
 
-
-compile-easy:
-	gcc -g -o ${EXEC_NAME} ./termCurses.c -lncurses
-# run:
-#	./build/${EXEC_NAME}
+compile:
+	if [ ! -d "build" ]; then make prepare; fi
+	cd build && \
+	make
 
 
 clean:
@@ -18,12 +17,11 @@ prepare: clean;
 	cd build && \
 	cmake ..
 
-compile:
-	if [ ! -d "build" ]; then make prepare; fi
-	cd build && \
-	make
-
 run: compile;
 	cd build && ./${EXEC_NAME}
 
+compile-easy:
+	gcc -g -o ${EXEC_NAME} ./termCurses.c -lncurses
+# run:
+#	./build/${EXEC_NAME}
 

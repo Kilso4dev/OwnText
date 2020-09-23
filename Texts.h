@@ -4,5 +4,4 @@
 #define EMPTY_LINE '-'
 
 
-
 #endif //OWNTEXT_TEXTS_H

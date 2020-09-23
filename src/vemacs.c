@@ -53,6 +53,7 @@ int prog_init(int argc, char *argv[]) {
     logm(DEBUG_INFO, "Initialization!");
     
     editor_state.window_state = edit_init();
+    logm(DEBUG_INFO, "")
     atexit(prog_cleanup);
     editor_state.exit = false;
     args *a = args_parse(argc, argv);

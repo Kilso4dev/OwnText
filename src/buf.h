@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "logging.h"
+#include "config.h"
 
 #ifndef BUF_H
 #define BUF_H
@@ -13,20 +14,18 @@
 #define OT_BUF_LINE_REC_FREE_BACKWARD 2
 
 
-#define ot_size uint64_t
-#define ot_char int
 
 // -------------------------string helper functions -------------------------
-ot_size ot_str_len(ot_char *str);
+uint64_t ot_str_len(int *str);
 
-ot_char *ot_str_copy(ot_char *old, ot_size len);
+int *ot_str_copy(int *old, uint64_t len);
 
-void ot_str_free(ot_char *str);
+void ot_str_free(int *str);
 
 // -------------------------ot_buf_line functions -------------------------
 
 typedef struct ot_buf_line {
-    ot_char *chars;
+    int *chars;
 
     struct ot_buf_line *next;
     struct ot_buf_line *prev;
@@ -34,7 +33,7 @@ typedef struct ot_buf_line {
 } ot_buf_line;
 
 
-ot_buf_line *ot_buf_line_create(ot_char *str);
+ot_buf_line *ot_buf_line_create(int *str);
 
 void ot_buf_line_free(ot_buf_line *l, int free_type);
 
@@ -57,9 +56,13 @@ ot_buf *ot_buf_create_empty();
 void ot_buf_free(ot_buf *buf);
 
 
-void ot_buf_insert_after(ot_buf *head_buf, ot_buf_line *newLine, uint64_t target_line);
+int ot_buf_insert_after(ot_buf *head_buf, ot_buf_line *newLine, uint64_t target_line);
 
-void ot_buf_insert_before(ot_buf *head_buf, ot_buf_line *newLine, uint64_t target_line);
+int ot_buf_insert_before(ot_buf *head_buf, ot_buf_line *newLine, uint64_t target_line);
+
+void ot_buf_delete_target(ot_buf *head_buf, ot_buf_line *target_line);
+
+void ot_buf_delete_line(ot_buf *head_buf, uint64_t target_line);
 
 // ------------------------- utility functions -------------------------
 

@@ -2,14 +2,19 @@
 
 
 ## TODO:
-- buf testing
+- BUF test all deletion functions
+- buf testing (Anything else than basic adding (delete one, for example))
 - Window Management
-- State cleanup in closing
+- key Mapping, config
+- State cleanup on close
 
 ## Buffer testing classes
+```
 1            2       3
 |------------|-------|
 sl, tl, ll, el
+```
+
 #### 1.
 ```c
 if (tl < ll) { // sl - »tl - ll - el
@@ -29,8 +34,6 @@ if (tl < ll) { // sl - »tl - ll - el
         return el; // dir backwards
     }
 }
-
-
 ```
 #### 2.
 

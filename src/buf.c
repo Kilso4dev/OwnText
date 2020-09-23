@@ -3,11 +3,30 @@
 #define OT_DIR_FORWARD 2
 #define OT_DIR_BACKWARD 4
 
+uint64_t ot_buf_find_buf_line(
+        ot_buf *b,
+        ot_buf_line *line) {
+
+    ot_buf_line *cline = b->first_line;
+    
+    uint64_t cline_i = 0;
+    while ( cline ) {
+        if (cline == line) {
+            return cline_i;
+        }
+
+        cline = cline->next;
+        cline_i ++;
+    }
+
+    return -1;
+}
+
 ot_buf_line *ot_buf_get_nearestpointer(
         ot_buf *b,
-        ot_size tl, 
+        uint64_t tl, 
         int *dir,
-        ot_size *n_line) {
+        uint64_t *n_line) {
     if (tl >= b->lines) {
         logm(DEBUG_ERROR, "[ot_buf_get_nearestpointer] target Line is bigger than buffer Lines, returning NULL");
         return NULL;
@@ -39,11 +58,11 @@ ot_buf_line *ot_buf_get_nearestpointer(
 
 ot_buf_line *ot_find_buf(
         ot_buf *head_buf,
-        ot_size target_line) {
+        uint64_t target_line) {
     if (!head_buf) return NULL;
 
     int readDirection = 0;
-    ot_size n_line = 0;
+    uint64_t n_line = 0;
     ot_buf_line *n_buf = ot_buf_get_nearestpointer(
             head_buf, 
             target_line, 
@@ -54,7 +73,7 @@ ot_buf_line *ot_find_buf(
         n_buf = head_buf->first_line;
     }
 
-    ot_size c_buf_l = n_line;
+    uint64_t c_buf_l = n_line;
     ot_buf_line *c_buf = n_buf;
     while ( c_buf_l != target_line)  {
         if (readDirection == OT_DIR_BACKWARD) {
@@ -72,31 +91,31 @@ ot_buf_line *ot_find_buf(
 
 
 // -------------------------string helper functions -------------------------
-ot_size ot_str_len(ot_char *str) {
-    ot_size i = 0;
+uint64_t ot_str_len(int *str) {
+    uint64_t i = 0;
     while (str[i] != '\0') {
         ++i;
     }
     return i;
 }
 
-ot_char *ot_str_copy(ot_char *old, ot_size len) {
-    ot_char *new_str = (ot_char *) malloc(sizeof(ot_char) * len);
+int *ot_str_copy(int *old, uint64_t len) {
+    int *new_str = (int *) malloc(sizeof(int) * len);
     if (!new_str) return NULL;
-    for (ot_size i = 0; i < len && old[i] != '\0'; ++i) {
+    for (uint64_t i = 0; i < len && old[i] != '\0'; ++i) {
         new_str[i] = old[i];
     }
     return new_str;
 }
 
-void ot_str_free(ot_char *str) {
+void ot_str_free(int *str) {
     if (!str) return;
     free(str);
 }
 
 // -------------------------ot_buf_line functions -------------------------
 
-ot_buf_line *ot_buf_line_create(ot_char *str) {
+ot_buf_line *ot_buf_line_create(int *str) {
     ot_buf_line *new_l = (ot_buf_line *) malloc(sizeof(ot_buf_line));
     if (!new_l) {
         logm(DEBUG_ERROR, "[ot_buf_line] [create]: Error while allocating Memory");
@@ -158,10 +177,10 @@ void ot_buf_free(ot_buf *buf) {
     free(buf);
 }
 
-void ot_buf_insert_after(
+int ot_buf_insert_after(
         ot_buf *head_buf,
         ot_buf_line *newLine,
-        ot_size target_line) {
+        uint64_t target_line) {
 
     if (!head_buf->first_line && !head_buf->last_line) { 
         // Uninitialized Head, this is the first item
@@ -170,7 +189,7 @@ void ot_buf_insert_after(
         head_buf->last_used = newLine;
         head_buf->last_used_line = 0;
         head_buf->lines = 1;
-        return;
+        return 0;
     }
 
     ot_buf_line *target_buf = ot_find_buf(head_buf, target_line);
@@ -190,18 +209,20 @@ void ot_buf_insert_after(
 
     // Update lines
     head_buf->lines += 1;
+    return 0;
 }
 
-void ot_buf_insert_before(
+int ot_buf_insert_before(
         ot_buf *head_buf,
         ot_buf_line *newLine,
-        ot_size target_line) {
+        uint64_t target_line) {
+
     if (!head_buf->first_line && !head_buf->last_line) { // Uninitialized
         ot_buf_insert_after(
                 head_buf,
                 newLine,
                 target_line);
-        return;
+        return 0;
     }
 
     ot_buf_line *target_buf = ot_find_buf(head_buf, target_line);
@@ -221,8 +242,59 @@ void ot_buf_insert_before(
 
     // Update lines
     head_buf->lines += 1;
+
+    return 0;
 }
 
+/**
+ * NOT SAFE !
+ * This function is not error safe, if the buffer structure and the target buffer are not valid, the file struct will get unusable
+ **/
+
+void ot_buf_delete_target(ot_buf *head_buf, ot_buf_line *target_line) {
+    if (!target_line) return;
+    
+#ifndef OPTIMIZE
+    // Test if buffer is in line
+    if ( ot_buf_find_buf_line(head_buf, target_line) == -1 ) {
+        logm(DEBUG_ERROR, "[ot_buf_delete_target] Searched line is not in buffer!, ignoring operation");
+        return;
+    }
+#endif
+
+    // validity check of the target buffer
+    ot_buf_line *p = NULL, *n = NULL;
+
+    // move pointer (prev)
+    if ( 
+            target_line->prev && 
+            target_line->prev->next == target_line
+            ) {
+        p = target_line->prev;
+
+        p->next = target_line->next;
+        target_line->prev = NULL;
+    }
+
+    // move pointer (Next)
+    if (
+            target_line->next && 
+            target_line->next->prev == target_line
+            ) {
+        n = target_line->next;
+
+        n->prev = target_line->prev;
+        target_line->next = NULL;
+    }
+
+    // Update lines
+    head_buf->lines -= 1;
+
+}
+
+void ot_buf_delete_line(ot_buf *head_buf, uint64_t target_line) {
+    ot_buf_delete_target(head_buf, ot_find_buf(head_buf, target_line));
+}
 
 // ------------------------- utility functions -------------------------
 
@@ -239,7 +311,7 @@ void ot_buf_print(ot_buf *b) {
     }
     
     ot_buf_line *cLine = b->first_line;
-    ot_size cli = 1;
+    uint64_t cli = 1;
     while (cLine) {
         logm(L, " Line %ld", cli);
         logm(L, "\t Prev: %p", cLine->prev);
@@ -250,5 +322,4 @@ void ot_buf_print(ot_buf *b) {
         cLine = cLine->next;
         ++cli;
     }
-
 }
