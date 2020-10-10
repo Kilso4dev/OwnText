@@ -1,27 +1,26 @@
+x='vemacs' # DEFAULT
 
-EXEC_NAME = vemacs
+all: compile;
 
 compile:
-	if [ ! -d "build" ]; then make prepare; fi
-	cd build && \
-	make
+	mkdir -p build
+	cd build && make || (cmake .. && make)
 
+recompile: clean compile;
 
 clean:
-	rm -f -r ./build
-	rm -f -r ./cmake-build-debug
+	rm -r -f ./build
+	rm -f vgcore.*
 
 
-prepare: clean;
-	mkdir -p build && \
-	cd build && \
-	cmake ..
+tests: compile;
 
-run: compile;
-	cd build && ./${EXEC_NAME}
 
-compile-easy:
-	gcc -g -o ${EXEC_NAME} ./termCurses.c -lncurses
-# run:
-#	./build/${EXEC_NAME}
+run:
+	./build/$(x)
 
+run-debug:
+	valgrind ./build/$(x)
+
+run-debug-full:
+	valgrind --leak-check=full ./build/$(x)
